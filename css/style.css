@@ -1,0 +1,32 @@
+.btn {
+    background-color: #4f4f4f;
+    border: none;
+    color: white;
+    font-weight: 500;
+    transition: 0.2s transform ease-in-out;
+}
+
+.btn:hover {
+    color: white;
+    transform: scale(1.1);
+}
+
+.selected {
+    background-color: white;
+    color: #333;
+}
+
+.selected:hover {
+    color: #333;
+    transform: scale(1.0);
+}
+
+.search {
+    border: none;
+    background-color: #4f4f4f;
+    color: white;
+}
+
+.search::placeholder {
+    color: #aaa;
+}
