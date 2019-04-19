@@ -30,3 +30,53 @@
 .search::placeholder {
     color: #aaa;
 }
+
+.back {
+    background-color: #4f4f4f;
+    border: none;
+    color: white;
+    transition: 0.2s transform ease-in-out;
+    margin-bottom: 10px;
+}
+.back:hover {
+    color: white;
+    transform: scale(1.1);
+}
+
+.objective-c {
+    background-color: #eee;
+}
+.precode {
+    border-radius: 10px;
+    background-color: #eee;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: rgba(0,0,0,0);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #bbb;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #999;
+}
+
+.madeby {
+    background-color: #ddd;
+    border-radius: 10px;
+    height: 80px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.is-gray {
+    background-color: #eee
+}
