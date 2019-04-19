@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path')
-const headerFolders12 = '/../headers';
+const headerFolders12 = '/../headers/12.1.2';
 
 /* BIG IMPORTANT NOTES
 
@@ -40,3 +40,8 @@ Check the comments above each snippet so you know what the actual hell is going 
 //         console.log(contents)   
 //     }
 // });
+
+/* This code lists the contents of all files starting with "UI" in /headers/ */
+fs.readdirSync(__dirname + headerFolders12).forEach(file => {
+    console.log(file)
+});
