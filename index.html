@@ -4,31 +4,28 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, inital-scale=1">
         <script defer="" src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-        <link rel="stylesheet" href="css/bulma.css">
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="../css/bulma.css">
+        <link rel="stylesheet" href="../css/style.css">
         <title>Search iOS Headers</title>
     </head>
     <body>
-        <section class="hero is-header is-medium is-dark">
+        <section class="hero is-header is-dark is-bold">
 	        <div class="hero-body">
 	        	<div class="container">
 			      	<h1 class="title is-1" style="font-weight: 800;">HeaderFinder</h1>
-			      	<p class="subtitle">Find functions and methods inside SpringBoard headers with ease.</p>
+                      <p class="subtitle">Find functions and methods inside SpringBoard headers with ease.</p>
 			      	<p class="buttons">
-                        <a class="button btn selected" href="12.1/index.html">12.1</a>
-                        <a class="button btn" href="11.3/index.html">11.3</a>
-                        <a class="button btn" href="11.0/index.html">11.0</a>
-                        <a class="button btn" href="10.2/index.html">10.2</a>
-                        <a class="button btn" href="10.0/index.html">10.0</a>
-                        <a class="button btn" href="9.3.3/index.html">9.3.3</a>
-                        <a class="button btn" href="9.0/index.html">9.0</a>
-                        <a class="button btn" href="8.4.1/index.html">8.4.1</a>
-                        <a class="button btn" href="8.0/index.html">8.0</a>
-                        <a class="button btn" href="7.0/index.html">7.0</a>
-                        <a class="button btn" href="6.0/index.html">6.0</a>
-                        <a class="button btn" href="5.0/index.html">5.0</a>
-                        <a class="button btn" href="4.0/index.html">4.0</a>
-                        <a class="button btn" href="3.0/index.html">3.0</a>
+                        <a class="button btn" id="12.1.2" onclick="setVersion('12.1.2')">12.1.2</a>
+                        <a class="button btn" id="11.3.1" onclick="setVersion('11.3.1')">11.3.1</a>
+                        <a class="button btn" id="10.2" onclick="setVersion('10.2')">10.2</a>
+                        <a class="button btn" id="10.0" onclick="setVersion('10.0')">10.0</a>
+                        <a class="button btn" id="9.3" onclick="setVersion('9.3')">9.3</a>
+                        <a class="button btn" id="9.0" onclick="setVersion('9.0')">9.0</a>
+                        <a class="button btn" id="8.4" onclick="setVersion('8.4')">8.4</a>
+                        <a class="button btn" id="8.1" onclick="setVersion('8.1')">8.1</a>
+                        <a class="button btn" id="7.0" onclick="setVersion('7.0')">7.0</a>
+                        <a class="button btn" id="6.0" onclick="setVersion('6.0')">6.0</a>
+                        <a class="button btn" id="5.1" onclick="setVersion('5.1')">5.1</a>
                     </p>
                     <form action="?search">
                         <div class="field">
@@ -45,45 +42,17 @@
         </section>
         <section class="section hero">
             <div class="container" style="width: 95%">
-                <h2 class="title is-2" style="font-weight: 800;">iOS 12.1</h2>
+                <h2 class="title is-2" style="font-weight: 800;" id="iosVersion">iOS</h2>
 
                 <div class="columns is-multiline">
 
-                    <div class="column is-full" style="background-color: #eee; border-radius: 10px; padding: 20px; margin-bottom: 10px">
+                    <div onclick="openHeader('VolumeControl.h')" class="column is-full" style="background-color: #eee; border-radius: 10px; padding: 20px; margin-bottom: 10px; cursor: pointer">
                         <h4 class="title is-4">
-                            <i class="fas fa-file" style="margin-right: 15px"></i>header.h
+                            <i class="fas fa-file" style="margin-right: 15px"></i>VolumeControl.h
                             <span style="float: right"><i class="fas fa-chevron-right" style="opacity: 0.4"></i></span>
                         </h4>
                     </div>
-                    
-                    <div class="column is-full" style="background-color: #eee; border-radius: 10px; padding: 20px; margin-bottom: 10px">
-                        <h4 class="title is-4">
-                            <i class="fas fa-file" style="margin-right: 15px"></i>header.h
-                            <span style="float: right"><i class="fas fa-chevron-right" style="opacity: 0.4"></i></span>
-                        </h4>
-                    </div>
-                    
-                    <div class="column is-full" style="background-color: #eee; border-radius: 10px; padding: 20px; margin-bottom: 10px">
-                        <h4 class="title is-4">
-                            <i class="fas fa-file" style="margin-right: 15px"></i>header.h
-                            <span style="float: right"><i class="fas fa-chevron-right" style="opacity: 0.4"></i></span>
-                        </h4>
-                    </div>
-                    
-                    <div class="column is-full" style="background-color: #eee; border-radius: 10px; padding: 20px; margin-bottom: 10px">
-                        <h4 class="title is-4">
-                            <i class="fas fa-file" style="margin-right: 15px"></i>header.h
-                            <span style="float: right"><i class="fas fa-chevron-right" style="opacity: 0.4"></i></span>
-                        </h4>
-                    </div>
-                    
-                    <div class="column is-full" style="background-color: #eee; border-radius: 10px; padding: 20px; margin-bottom: 10px">
-                        <h4 class="title is-4">
-                            <i class="fas fa-file" style="margin-right: 15px"></i>header.h
-                            <span style="float: right"><i class="fas fa-chevron-right" style="opacity: 0.4"></i></span>
-                        </h4>
-                    </div>
-                    
+
                 </div>
             </div>
         </section>
@@ -106,10 +75,15 @@
                         </p>
                     </a>
                 </div>
-
-                <h4 class="title is-4" style="margin-top: 30px">Using</h4>
-                <div class="columns">
-                    <a href="https://bulma.io/" target="_blank" class="column is-full madeby">
+                <div class="columns" style="margin-top: 10px">
+                    <a href="https://twitter.com/s0n1c_dev" target="_blank" class="column is-half-desktop is-half-tablet is-full-mobile madeby">
+                        <img style="float: left; height: 55px; margin-right: 10px; border-radius: 25.5px" src="https://pbs.twimg.com/profile_images/1113749691357904896/8C59_DIP_400x400.jpg"/>
+                        <p style="float:left">
+                            <h4 class="title is-4">S0n1c</h4>
+                            <h6 class="subtitle is-6">@s0n1c_dev on Twitter</h6>
+                        </p>
+                    </a>
+                    <a href="https://bulma.io/" target="_blank" class="column is-half-desktop is-half-tablet is-full-mobile madeby">
                         <img style="float: left; height: 55px; margin-right: 10px" src="https://jgthms.com/web-design-in-4-minutes/bulma.png"/>
                         <p style="float:left">
                             <h4 class="title is-4">Bulma</h4>
@@ -120,7 +94,25 @@
             </div>
         </section>
         <script>
-            // document.location.href = document.location + document.getElementsByClassName("selected")[0].innerHTML + "/index.html";
+            var urlParams = new URLSearchParams(location.search);
+            if (!urlParams.has('ios')) {
+                document.location.href = "//" + document.domain + "?ios=12.1.2";
+            } else {
+                var iosV = urlParams.get('ios');
+                try {
+                    document.getElementById(iosV).className += " selected";
+                    document.getElementById("iosVersion").innerHTML = "iOS " + iosV;
+                    console.log(iosV);
+                } catch (e) {
+                    document.location.href = "//" + document.domain + "?ios=12.1.2";
+                }
+            }
+            function setVersion(version) {
+                document.location.href = "//" + document.domain + "?ios=" + version;
+            }
+            function openHeader(name) {
+                document.location.href = "//" + document.domain + "/view?ios=" + document.getElementsByClassName("selected")[0].innerHTML + "&header=" + name;
+            }
         </script>
     </body>
 </html>

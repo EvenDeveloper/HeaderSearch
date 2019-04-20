@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, inital-scale=1">
+        <script defer="" src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+        <link rel="stylesheet" href="css/atom-one-light.css">
+        <script src="js/highlight.pack.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+        <link rel="stylesheet" href="../css/bulma.css">
+        <link rel="stylesheet" href="../css/style.css">
+        <title>Search iOS Headers</title>
+    </head>
+    <body>
+        <section class="hero is-header is-dark">
+	        <div class="hero-body">
+	        	<div class="container">
+                    <a class="button back" id="back" href="/">
+                        <span class="icon" style="margin-right: 1px">
+                            <i class="fas fa-chevron-left"></i>
+                        </span>
+                        Back
+                    </a>
+			      	<h1 class="title is-1" style="font-weight: 800;" id="header"></h1>
+			      	<h3 class="subtitle is-3" id="ios">iOS</h3>
+                </div>
+            </div>
+        </section>
+        <section class="section hero">
+            <div class="container" style="width: 95%">
+                <pre class="precode"><code class=" objective-c" id="codeView"></code></pre>
+            </div>
+        </section>
+        <section class="section hero is-gray">
+            <div class="container" style="width: 95%">
+                <h4 class="title is-4">Made with <i class="fas fa-heart"></i> by</h4>
+                <div class="columns">
+                    <a href="https://twitter.com/even_dev" target="_blank" class="column is-half-desktop is-half-tablet is-full-mobile madeby">
+                        <img style="float: left; height: 55px; margin-right: 10px" src="https://pbs.twimg.com/profile_images/1080171873806110721/M2cwjGsI_400x400.png"/>
+                        <p style="float:left">
+                            <h4 class="title is-4">EvenDev</h4>
+                            <h6 class="subtitle is-6">@even_dev on Twitter</h6>
+                        </p>
+                    </a>
+                    <a href="https://twitter.com/jvvks" target="_blank" class="column is-half-desktop is-half-tablet is-full-mobile madeby">
+                        <img style="float: left; height: 55px; margin-right: 10px; border-radius: 25.5px" src="https://pbs.twimg.com/profile_images/1112360281852837888/Iw0A6QPC_400x400.png"/>
+                        <p style="float:left">
+                            <h4 class="title is-4">Jack</h4>
+                            <h6 class="subtitle is-6">@jvvks on Twitter</h6>
+                        </p>
+                    </a>
+                </div>
+                <div class="columns" style="margin-top: 10px">
+                    <a href="https://twitter.com/s0n1c_dev" target="_blank" class="column is-half-desktop is-half-tablet is-full-mobile madeby">
+                        <img style="float: left; height: 55px; margin-right: 10px; border-radius: 25.5px" src="https://pbs.twimg.com/profile_images/1113749691357904896/8C59_DIP_400x400.jpg"/>
+                        <p style="float:left">
+                            <h4 class="title is-4">S0n1c</h4>
+                            <h6 class="subtitle is-6">@s0n1c_dev on Twitter</h6>
+                        </p>
+                    </a>
+                    <a href="https://bulma.io/" target="_blank" class="column is-half-desktop is-half-tablet is-full-mobile madeby">
+                        <img style="float: left; height: 55px; margin-right: 10px" src="https://jgthms.com/web-design-in-4-minutes/bulma.png"/>
+                        <p style="float:left">
+                            <h4 class="title is-4">Bulma</h4>
+                            <h6 class="subtitle is-6">https://bulma.io/</h6>
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </section>
+        <script>
+                var urlParams = new URLSearchParams(location.search);
+                var iosV = urlParams.get('ios');
+                var headerN = urlParams.get('header');
+                try {
+                    document.getElementById("header").innerHTML = headerN;
+                    document.getElementById("ios").innerHTML = "iOS " + iosV;
+                    document.getElementById("back").href = "/?ios=" + iosV;
+
+                    var client = new XMLHttpRequest();
+                    client.open('GET', "//" + document.domain + "/headers/" + iosV + "/" + headerN);
+                    client.onreadystatechange = function() {
+                        document.getElementById("codeView").innerHTML = client.responseText;
+                        document.querySelectorAll('pre code').forEach((block) => {
+                            hljs.highlightBlock(block);
+                        });
+                    }
+                    client.send();
+
+                    console.log(iosV);
+                } catch (e) {
+                    document.location.href = "//" + document.domain;
+                }
+        </script>
+    </body>
+</html>
