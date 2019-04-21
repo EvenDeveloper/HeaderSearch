@@ -44,7 +44,7 @@
             <div class="container" style="width: 95%">
                 <h2 class="title is-2" style="font-weight: 800;" id="iosVersion">iOS</h2>
 
-                <div class="columns is-multiline">
+                <div class="columns is-multiline" id="headers">
 
                     <div onclick="openHeader('VolumeControl.h')" class="column is-full" style="background-color: #eee; border-radius: 10px; padding: 20px; margin-bottom: 10px; cursor: pointer">
                         <h4 class="title is-4">
@@ -54,6 +54,8 @@
                     </div>
 
                 </div>
+
+
             </div>
         </section>
         <section class="section hero is-gray">
@@ -106,6 +108,8 @@
                 } catch (e) {
                     document.location.href = "//" + document.domain + "?ios=12.1.2";
                 }
+
+                loadFiles(iosV);
             }
             function setVersion(version) {
                 document.location.href = "//" + document.domain + "?ios=" + version;
@@ -113,6 +117,47 @@
             function openHeader(name) {
                 document.location.href = "//" + document.domain + "/view?ios=" + document.getElementsByClassName("selected")[0].innerHTML + "&header=" + name;
             }
+
+            function loadFiles(v) {
+              fetch('./headers/headers.json')
+                .then(
+                  function(response) {
+                    if (response.status !== 200) {
+                      console.log('Looks like there was a problem. Status Code: ' +
+                        response.status);
+                      return;
+                    }
+
+                    // Examine the text in the response
+                    response.json().then(function(data) {
+                      console.log(data[v]);
+
+                      var html = "";
+
+                      data[v].forEach((item) => {
+                        html += `
+                        <div onclick="openHeader('${item}')" class="column is-full" style="background-color: #eee; border-radius: 10px; padding: 20px; margin-bottom: 10px; cursor: pointer">
+                            <h4 class="title is-4">
+                                <i class="fas fa-file" style="margin-right: 15px"></i>${item}
+                                <span style="float: right"><i class="fas fa-chevron-right" style="opacity: 0.4"></i></span>
+                            </h4>
+                        </div>
+                        `;
+                      });
+
+                      document.getElementById("headers").innerHTML = html;
+
+
+                    });
+                  }
+                )
+                .catch(function(err) {
+                  console.log('Fetch Error :-S', err);
+                });
+            }
+
+
+
         </script>
     </body>
 </html>
