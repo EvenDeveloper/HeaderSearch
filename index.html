@@ -119,7 +119,7 @@
             }
 
             function loadFiles(v) {
-              fetch('./headers/headers.json')
+              fetch(`./headers/${document.getElementsByClassName("selected")[0].innerHTML}.json`)
                 .then(
                   function(response) {
                     if (response.status !== 200) {
