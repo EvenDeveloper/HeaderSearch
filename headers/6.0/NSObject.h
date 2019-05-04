@@ -1,1 +1,0 @@
-#import <Foundation/NSObject.h>
