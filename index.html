@@ -21,45 +21,81 @@
                                   <p class="buttons">
                                     <a class="button btn" v-for="(key, index) in versions" @click="loadVersion(index)">{{key}}</a>
                                 </p>
-                                <form action="?search">
+                               
                                     <div class="field">
                                         <p class="control has-icons-left">
-                                            <input class="input search is-medium" id="search" name="search" type="text" placeholder="Search">
+                                            <input class="input search is-medium" v-model="search" @input="searchFile" type="text" placeholder="Search">
                                             <span class="icon is-left" style="color: #aaa">
                                                 <i class="fas fa-search"></i>
                                             </span>
                                         </p>
                                     </div>
-                                </form>
+                                
                             </div>
                         </div>
                     </section>
                     <section class="section hero">
                         <div class="container" style="width: 100%">
-                            <h2 class="title is-2" style="font-weight: 800;" id="iosVersion">iOS</h2>
+                            <h2 class="title is-2" style="font-weight: 800;">{{page_title}}</h2>
             
-                            <div class="columns is-multiline">
+                            
                                 
-                                <div v-if="Object.keys(files).length > 0">
-                                    
-                                            <div v-for="file in files" class="column is-full-mobile is-full-tablet is-half-desktop" style="background-color: #eee; border-radius: 10px; padding: 20px; margin-bottom: 10px; cursor: pointer">
+                                <span v-if="Object.keys(files).length > 0">
+                                    <span v-if="isSearch()">
+
+                                        <div v-if="search_results.length > 0">
+
+                                                <div class="columns is-multiline">
+                                                <div v-for="file in search_results.slice(0, 20)" class="column is-full-mobile is-full-tablet is-fullwidth-desktop" style="background-color: #eee; border-radius: 10px; padding: 20px; margin-bottom: 10px; cursor: pointer">
+                                                        <table style="width: 100%"><tr>
+                                                            <td style="width: 15px"><h4 class="title is-4"><i class="fas fa-file" style="margin-right: 15px"></i></h4></td>
+                                                            <td><h4 class="title is-4 headerstr">{{file}}</h4></td>
+                                                            <td style="width: 15px; float: right; margin-left: 10px"><h4 class="title is-4"><i class="fas fa-chevron-right" style="opacity: 0.4"></i></h4></td>
+                                                        </tr></table>
+                                                    </div>
+                                                    </div>
+
+                                        </div>
+                                        <div v-else>
+                                            <p>Couldn't find any files matching that query!</p>
+                                        </div>
+
+                                    </span>
+                                    <span v-else>
+
+                                            <div class="columns is-multiline">
+                                            <div v-for="file in files.slice(0, 20)" class="column is-full-mobile is-full-tablet is-half-desktop" style="background-color: #eee; border-radius: 10px; padding: 20px; margin-bottom: 10px; cursor: pointer">
                                                     <table style="width: 100%"><tr>
                                                         <td style="width: 15px"><h4 class="title is-4"><i class="fas fa-file" style="margin-right: 15px"></i></h4></td>
                                                         <td><h4 class="title is-4 headerstr">{{file}}</h4></td>
                                                         <td style="width: 15px; float: right; margin-left: 10px"><h4 class="title is-4"><i class="fas fa-chevron-right" style="opacity: 0.4"></i></h4></td>
                                                     </tr></table>
                                                 </div>
-                                    
-                                </div>
+                                            </div>
 
-                                <div v-if="Object.keys(files).length == 0" class="column is-full" style="background-color: #eee; border-radius: 10px; padding: 20px; margin-bottom: 10px; cursor: pointer">
+                                            <div class="columns is-multiline">
+                                            <div class="column is-full-mobile is-full-tablet is-half-desktop" style="background-color: #eee; border-radius: 10px; padding: 20px; margin-bottom: 10px; cursor: pointer">
+                                                    <table style="width: 100%"><tr>
+                                                        <td style="width: 15px"><h4 class="title is-4"><i class="fas fa-file" style="margin-right: 15px"></i></h4></td>
+                                                        <td><h4 class="title is-4 headerstr">{{ files.length - 20 }} more files...</h4></td>
+                                                        
+                                                    </tr></table>
+                                                </div>
+                                            </div>
+
+                                    </span>
+
+                                            
+                                    
+                                </span>
+                                <span v-else class="column is-full" style="background-color: #eee; border-radius: 10px; padding: 20px; margin-bottom: 10px; cursor: pointer">
                                     <h4 class="title is-4">
                                         <i class="fas fa-spinner" style="margin-right: 15px"></i>Loading...
                                         <span style="float: right"><i class="fas fa-chevron-right" style="opacity: 0.4"></i></span>
                                     </h4>
-                                </div>
-            
-                            </div>
+                                </span>
+
+                                
             
             
                         </div>

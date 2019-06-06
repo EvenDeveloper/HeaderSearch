@@ -1,7 +1,7 @@
 var app = new Vue({
     el: '#app',
     data: {
-        db: 'https://headers.evendev.org/headers/',
+        db: 'http://localhost/headers/',
         versions: [
             "12.1.2",
             "11.3.1",
@@ -16,9 +16,19 @@ var app = new Vue({
             "5.1"
         ],
         current_version: 0,
-        files: []
+        files: [],
+        search: "",
+        page_title: `iOS`,
+        search_results: []
     },
     methods: {
+        isSearch() {
+            if(this.search.length > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        },
         log(str) {
             console.trace('[HeaderFinder]', str);
         },
@@ -45,7 +55,9 @@ var app = new Vue({
             this.log(`Loading ${version} from DB`);
             this.getEndpoint(`${version}.json`).then((data) => {
                 this.files = data[version];
-                this.log(this.files);
+               this.search = "";
+               this.page_title = `iOS ${version}`
+                this.log(data);
             }).catch((e) => {
           ///      alert("Failed to load files! Contact us!");
                 this.log(e);
@@ -55,6 +67,39 @@ var app = new Vue({
             this.files = [];
             this.current_version = i;
             this.init();
+        },
+        searchFile() {
+            this.search_results = [];
+            if(this.search == "") {
+                this.search_results = [];
+                this.log(`Turned off search`)
+            } else {
+                this.log(`Searching for ${this.search}`)
+
+                var search = this.search;
+                this.page_title = `Searching for ${search}`;
+
+                this.search_results = [];
+                this.files.forEach((file) => {
+                    if(file.search(search) !== -1) {
+                        this.search_results.push(file);
+                    }
+                })
+
+                /*var sValue = document.getElementById("search").value;
+                console.log(sValue);
+                document.getElementById("iosVersion").innerHTML = 'Searching for "' + sValue + '"';
+
+                var headerStrings = document.getElementsByClassName("headerstr");
+                for (var i = 0; i < headerStrings.length; i++) {
+                    if (!headerStrings[i].innerHTML.toLowerCase().includes(sValue.toLowerCase())) {
+                        headerStrings[i].parentElement.parentElement.parentElement.parentElement.parentElement.style.display = "none";
+                    } else {
+                        headerStrings[i].parentElement.parentElement.parentElement.parentElement.parentElement.style.display = "block";
+                    }
+                }*/
+
+            }
         }
     }
   });
