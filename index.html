@@ -4,180 +4,107 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, inital-scale=1">
         <script defer="" src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-        <link rel="stylesheet" href="../css/bulma.css">
-        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="./css/bulma.css">
+        <link rel="stylesheet" href="./css/style.css">
         <title>Search iOS Headers</title>
     </head>
     <body>
-        <section class="hero is-header is-dark">
-	        <div class="hero-body">
-	        	<div class="container">
-			      	<h1 class="title is-1" style="font-weight: 800;">HeaderFinder</h1>
-                      <p class="subtitle">Find functions and methods inside SpringBoard headers with ease.</p>
-			      	<p class="buttons">
-                        <a class="button btn" id="12.1.2" onclick="setVersion('12.1.2')">12.1.2</a>
-                        <a class="button btn" id="11.3.1" onclick="setVersion('11.3.1')">11.3.1</a>
-                        <a class="button btn" id="10.2" onclick="setVersion('10.2')">10.2</a>
-                        <a class="button btn" id="10.0" onclick="setVersion('10.0')">10.0</a>
-                        <a class="button btn" id="9.3" onclick="setVersion('9.3')">9.3</a>
-                        <a class="button btn" id="9.0" onclick="setVersion('9.0')">9.0</a>
-                        <a class="button btn" id="8.4" onclick="setVersion('8.4')">8.4</a>
-                        <a class="button btn" id="8.1" onclick="setVersion('8.1')">8.1</a>
-                        <a class="button btn" id="7.0" onclick="setVersion('7.0')">7.0</a>
-                        <a class="button btn" id="6.0" onclick="setVersion('6.0')">6.0</a>
-                        <a class="button btn" id="5.1" onclick="setVersion('5.1')">5.1</a>
-                    </p>
-                    <form action="?search">
-                        <div class="field">
-                            <p class="control has-icons-left">
-                                <input class="input search is-medium" id="search" name="search" type="text" placeholder="Search">
-                                <span class="icon is-left" style="color: #aaa">
-                                    <i class="fas fa-search"></i>
-                                </span>
-                            </p>
+        
+        
+
+        <div id="app">
+                <section class="hero is-header is-dark">
+                        <div class="hero-body">
+                            <div class="container">
+                                  <h1 class="title is-1" style="font-weight: 800;">HeaderFinder</h1>
+                                  <p class="subtitle">Find functions and methods inside SpringBoard headers with ease.</p>
+                                  <p class="buttons">
+                                    <a class="button btn" v-for="(key, index) in versions" @click="loadVersion(index)">{{key}}</a>
+                                </p>
+                                <form action="?search">
+                                    <div class="field">
+                                        <p class="control has-icons-left">
+                                            <input class="input search is-medium" id="search" name="search" type="text" placeholder="Search">
+                                            <span class="icon is-left" style="color: #aaa">
+                                                <i class="fas fa-search"></i>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                    </form>
-                </div>
-            </div>
-        </section>
-        <section class="section hero">
-            <div class="container" style="width: 100%">
-                <h2 class="title is-2" style="font-weight: 800;" id="iosVersion">iOS</h2>
+                    </section>
+                    <section class="section hero">
+                        <div class="container" style="width: 100%">
+                            <h2 class="title is-2" style="font-weight: 800;" id="iosVersion">iOS</h2>
+            
+                            <div class="columns is-multiline">
+                                
+                                <div v-if="Object.keys(files).length > 0">
+                                    
+                                            <div v-for="file in files" class="column is-full-mobile is-full-tablet is-half-desktop" style="background-color: #eee; border-radius: 10px; padding: 20px; margin-bottom: 10px; cursor: pointer">
+                                                    <table style="width: 100%"><tr>
+                                                        <td style="width: 15px"><h4 class="title is-4"><i class="fas fa-file" style="margin-right: 15px"></i></h4></td>
+                                                        <td><h4 class="title is-4 headerstr">{{file}}</h4></td>
+                                                        <td style="width: 15px; float: right; margin-left: 10px"><h4 class="title is-4"><i class="fas fa-chevron-right" style="opacity: 0.4"></i></h4></td>
+                                                    </tr></table>
+                                                </div>
+                                    
+                                </div>
 
-                <div class="columns is-multiline" id="headers">
-
-                    <div class="column is-full" style="background-color: #eee; border-radius: 10px; padding: 20px; margin-bottom: 10px; cursor: pointer">
-                        <h4 class="title is-4">
-                            <i class="fas fa-spinner" style="margin-right: 15px"></i>Loading...
-                            <span style="float: right"><i class="fas fa-chevron-right" style="opacity: 0.4"></i></span>
-                        </h4>
-                    </div>
-
-                </div>
-
-
-            </div>
-        </section>
-        <section class="section hero is-gray">
-            <div class="container" style="width: 95%">
-                <h4 class="title is-4">Made with <i class="fas fa-heart"></i> by</h4>
-                <div class="columns">
-                    <a href="https://twitter.com/even_dev" target="_blank" class="column is-half-desktop is-half-tablet is-full-mobile madeby">
-                        <img style="float: left; height: 55px; margin-right: 10px" src="https://pbs.twimg.com/profile_images/1080171873806110721/M2cwjGsI_400x400.png"/>
-                        <p style="float:left">
-                            <h4 class="title is-4">EvenDev</h4>
-                            <h6 class="subtitle is-6">@even_dev on Twitter</h6>
-                        </p>
-                    </a>
-                    <a href="https://twitter.com/jvvks" target="_blank" class="column is-half-desktop is-half-tablet is-full-mobile madeby">
-                        <img style="float: left; height: 55px; margin-right: 10px; border-radius: 25.5px" src="https://pbs.twimg.com/profile_images/1112360281852837888/Iw0A6QPC_400x400.png"/>
-                        <p style="float:left">
-                            <h4 class="title is-4">Jack</h4>
-                            <h6 class="subtitle is-6">@jvvks on Twitter</h6>
-                        </p>
-                    </a>
-                </div>
-                <div class="columns" style="margin-top: 10px">
-                    <a href="https://twitter.com/s0n1c_dev" target="_blank" class="column is-half-desktop is-half-tablet is-full-mobile madeby">
-                        <img style="float: left; height: 55px; margin-right: 10px; border-radius: 25.5px" src="https://pbs.twimg.com/profile_images/1113749691357904896/8C59_DIP_400x400.jpg"/>
-                        <p style="float:left">
-                            <h4 class="title is-4">S0n1c</h4>
-                            <h6 class="subtitle is-6">@s0n1c_dev on Twitter</h6>
-                        </p>
-                    </a>
-                    <a href="https://bulma.io/" target="_blank" class="column is-half-desktop is-half-tablet is-full-mobile madeby">
-                        <img style="float: left; height: 55px; margin-right: 10px" src="https://jgthms.com/web-design-in-4-minutes/bulma.png"/>
-                        <p style="float:left">
-                            <h4 class="title is-4">Bulma</h4>
-                            <h6 class="subtitle is-6">https://bulma.io/</h6>
-                        </p>
-                    </a>
-                </div>
-            </div>
-        </section>
-        <script>
-            var urlParams = new URLSearchParams(location.search);
-            if (!urlParams.has('ios')) {
-                document.location.href = "//" + document.domain + "?ios=12.1.2";
-            } else {
-                var iosV = urlParams.get('ios');
-                try {
-                    document.getElementById(iosV).className += " selected";
-                    document.getElementById("iosVersion").innerHTML = "iOS " + iosV;
-                    console.log(iosV);
-                } catch (e) {
-                    document.location.href = "//" + document.domain + "?ios=12.1.2";
-                }
-
-                loadFiles(iosV);
-            }
-            function setVersion(version) {
-                document.location.href = "//" + document.domain + "?ios=" + version;
-            }
-            function openHeader(name) {
-                document.location.href = "//" + document.domain + "/view?ios=" + document.getElementsByClassName("selected")[0].innerHTML + "&header=" + name;
-            }
-
-            function search() {
-                var sValue = document.getElementById("search").value;
-                console.log(sValue);
-                document.getElementById("iosVersion").innerHTML = 'Searching for "' + sValue + '"';
-
-                var headerStrings = document.getElementsByClassName("headerstr");
-                for (var i = 0; i < headerStrings.length; i++) {
-                    if (!headerStrings[i].innerHTML.toLowerCase().includes(sValue.toLowerCase())) {
-                        headerStrings[i].parentElement.parentElement.parentElement.parentElement.parentElement.style.display = "none";
-                    } else {
-                        headerStrings[i].parentElement.parentElement.parentElement.parentElement.parentElement.style.display = "block";
-                    }
-                }
-            }
-
-            var searchBar = document.getElementById("search");
-
-            searchBar.addEventListener('input', search);
-
-            function loadFiles(v) {
-              fetch(`./headers/${v}.json`)
-                .then(
-                  function(response) {
-                    if (response.status !== 200) {
-                      console.log('Looks like there was a problem. Status Code: ' +
-                        response.status);
-                      return;
-                    }
-
-                    // Examine the text in the response
-                    response.json().then(function(data) {
-                      console.log(data[v]);
-
-                      var html = "";
-
-                      data[v].forEach((item) => {
-                        html += `
-                        <div onclick="openHeader('${item}')" class="column is-full-mobile is-full-tablet is-half-desktop" style="background-color: #eee; border-radius: 10px; padding: 20px; margin-bottom: 10px; cursor: pointer">
-                            <table style="width: 100%"><tr>
-                                <td style="width: 15px"><h4 class="title is-4"><i class="fas fa-file" style="margin-right: 15px"></i></h4></td>
-                                <td><h4 class="title is-4 headerstr">${item}</h4></td>
-                                <td style="width: 15px; float: right; margin-left: 10px"><h4 class="title is-4"><i class="fas fa-chevron-right" style="opacity: 0.4"></i></h4></td>
-                            </tr></table>
+                                <div v-if="Object.keys(files).length == 0" class="column is-full" style="background-color: #eee; border-radius: 10px; padding: 20px; margin-bottom: 10px; cursor: pointer">
+                                    <h4 class="title is-4">
+                                        <i class="fas fa-spinner" style="margin-right: 15px"></i>Loading...
+                                        <span style="float: right"><i class="fas fa-chevron-right" style="opacity: 0.4"></i></span>
+                                    </h4>
+                                </div>
+            
+                            </div>
+            
+            
                         </div>
-                        `;
-                      });
+                    </section>
+                    <section class="section hero is-gray">
+                        <div class="container" style="width: 95%">
+                            <h4 class="title is-4">Made with <i class="fas fa-heart"></i> by</h4>
+                            <div class="columns">
+                                <a href="https://twitter.com/even_dev" target="_blank" class="column is-half-desktop is-half-tablet is-full-mobile madeby">
+                                    <img style="float: left; height: 55px; margin-right: 10px" src="https://api.zenithdevs.com/eclipse/twitter/even_dev"/>
+                                    <p style="float:left">
+                                        <h4 class="title is-4">EvenDev</h4>
+                                        <h6 class="subtitle is-6">@even_dev on Twitter</h6>
+                                    </p>
+                                </a>
+                                <a href="https://twitter.com/hellojacc" target="_blank" class="column is-half-desktop is-half-tablet is-full-mobile madeby">
+                                    <img style="float: left; height: 55px; margin-right: 10px; border-radius: 25.5px" src="https://api.zenithdevs.com/eclipse/twitter/hellojacc"/>
+                                    <p style="float:left">
+                                        <h4 class="title is-4">Jack</h4>
+                                        <h6 class="subtitle is-6">@hellojacc on Twitter</h6>
+                                    </p>
+                                </a>
+                            </div>
+                            <div class="columns" style="margin-top: 10px">
+                                <a href="https://twitter.com/ItsS0n1c" target="_blank" class="column is-half-desktop is-half-tablet is-full-mobile madeby">
+                                    <img style="float: left; height: 55px; margin-right: 10px; border-radius: 25.5px" src="https://api.zenithdevs.com/eclipse/twitter/itss0n1c"/>
+                                    <p style="float:left">
+                                        <h4 class="title is-4">S0n1c</h4>
+                                        <h6 class="subtitle is-6">@ItsS0n1c on Twitter</h6>
+                                    </p>
+                                </a>
+                                <a href="https://bulma.io/" target="_blank" class="column is-half-desktop is-half-tablet is-full-mobile madeby">
+                                    <img style="float: left; height: 55px; margin-right: 10px" src="https://jgthms.com/web-design-in-4-minutes/bulma.png"/>
+                                    <p style="float:left">
+                                        <h4 class="title is-4">Bulma</h4>
+                                        <h6 class="subtitle is-6">https://bulma.io/</h6>
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                    </section>
 
-                      document.getElementById("headers").innerHTML = html;
-
-
-                    });
-                  }
-                )
-                .catch(function(err) {
-                  console.log('Fetch Error :-S', err);
-                });
-            }
-
-
-
-        </script>
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+      <script src="js/app.js"></script>
     </body>
 </html>
