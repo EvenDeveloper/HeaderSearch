@@ -19,7 +19,7 @@
                                   <h1 class="title is-1" style="font-weight: 800;">HeaderFinder</h1>
                                   <p class="subtitle">Find functions and methods inside SpringBoard headers with ease.</p>
                                   <p class="buttons">
-                                    <a class="button btn" v-for="(key, index) in versions" @click="loadVersion(index)">{{key}}</a>
+                                    <a :class="'button btn '+ ((current_version == index) ? 'selected' : '')" v-for="(key, index) in versions" @click="loadVersion(index)">{{key}}</a>
                                 </p>
                                
                                     <div class="field">

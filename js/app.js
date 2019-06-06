@@ -1,8 +1,10 @@
 var app = new Vue({
     el: '#app',
     data: {
-       // db: 'http://localhost/headers/',
-       db: "https://headers.evendev.org/headers/",
+         db: (() => {
+             var url = `${location.protocol}//${location.host}/headers/`;
+             return url;
+         })(),
         versions: [
             "12.1.2",
             "11.3.1",
@@ -82,7 +84,7 @@ var app = new Vue({
 
                 this.search_results = [];
                 this.files.forEach((file) => {
-                    if(file.search(search) !== -1) {
+                    if(file.toLowerCase().includes(search.toLowerCase())) {
                         this.search_results.push(file);
                     }
                 })
