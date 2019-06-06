@@ -105,6 +105,11 @@ var app = new Vue({
             var file = this.files[i];
             var version = this.versions[this.current_version];
             this.showingFile = true;
+            this.showFile = {
+                title: file,
+                version: version,
+                data: "Loading file..."
+            }
             this.getEndpoint(`${version}/${file}`, null, "text").then((data) => {
 
                 ((done) => {
