@@ -1,146 +1,271 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, inital-scale=1">
-        <script defer="" src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-        <link rel="stylesheet" href="./css/bulma.css">
-        <link rel="stylesheet" href="./css/style.css">
-        <title>Search iOS Headers</title>
-    </head>
-    <body>
-        
-        
+<html class="has-background-dark">
 
-        <div id="app">
-                <section class="hero is-header is-dark">
-                        <div class="hero-body">
-                            <div class="container">
-                                  <h1 class="title is-1" style="font-weight: 800;">HeaderFinder</h1>
-                                  <p class="subtitle">Find functions and methods inside SpringBoard headers with ease.</p>
-                                  <p class="buttons">
-                                    <a :class="'button btn '+ ((current_version == index) ? 'selected' : '')" v-for="(key, index) in versions" @click="loadVersion(index)">{{key}}</a>
-                                </p>
-                               
-                                    <div class="field">
-                                        <p class="control has-icons-left">
-                                            <input class="input search is-medium" v-model="search" @input="searchFile" type="text" placeholder="Search">
-                                            <span class="icon is-left" style="color: #aaa">
-                                                <i class="fas fa-search"></i>
-                                            </span>
-                                        </p>
-                                    </div>
-                                
-                            </div>
-                        </div>
-                    </section>
-                    <section class="section hero">
-                        <div class="container" style="width: 100%">
-                            <h2 class="title is-2" style="font-weight: 800;">{{page_title}}</h2>
-            
-                            
-                                
-                                <span v-if="Object.keys(files).length > 0">
-                                    <span v-if="isSearch()">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, inital-scale=1">
+  <script defer="" src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  <link rel="stylesheet" href="./css/bulma.css">
+  <link rel="stylesheet" href="css/atom-one-dark.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <!--<title>Search iOS Headers</title>-->
+</head>
 
-                                        <div v-if="search_results.length > 0">
+<body>
 
-                                                <div class="columns is-multiline">
-                                                <div v-for="file in search_results.slice(0, 20)" class="column is-full-mobile is-full-tablet is-fullwidth-desktop" style="background-color: #eee; border-radius: 10px; padding: 20px; margin-bottom: 10px; cursor: pointer">
-                                                        <table style="width: 100%"><tr>
-                                                            <td style="width: 15px"><h4 class="title is-4"><i class="fas fa-file" style="margin-right: 15px"></i></h4></td>
-                                                            <td><h4 class="title is-4 headerstr">{{file}}</h4></td>
-                                                            <td style="width: 15px; float: right; margin-left: 10px"><h4 class="title is-4"><i class="fas fa-chevron-right" style="opacity: 0.4"></i></h4></td>
-                                                        </tr></table>
-                                                    </div>
-                                                    </div>
 
-                                        </div>
-                                        <div v-else>
-                                            <p>Couldn't find any files matching that query!</p>
-                                        </div>
 
-                                    </span>
-                                    <span v-else>
+  <div id="app" :style="((!showingFile) ? '' : 'overflow: hidden')">
+    <title>{{title}}</title>
 
-                                            <div class="columns is-multiline">
-                                            <div v-for="file in files.slice(0, 20)" class="column is-full-mobile is-full-tablet is-half-desktop" style="background-color: #eee; border-radius: 10px; padding: 20px; margin-bottom: 10px; cursor: pointer">
-                                                    <table style="width: 100%"><tr>
-                                                        <td style="width: 15px"><h4 class="title is-4"><i class="fas fa-file" style="margin-right: 15px"></i></h4></td>
-                                                        <td><h4 class="title is-4 headerstr">{{file}}</h4></td>
-                                                        <td style="width: 15px; float: right; margin-left: 10px"><h4 class="title is-4"><i class="fas fa-chevron-right" style="opacity: 0.4"></i></h4></td>
-                                                    </tr></table>
-                                                </div>
-                                            </div>
+    <div v-if="showingFile">
 
-                                            <div class="columns is-multiline">
-                                            <div class="column is-full-mobile is-full-tablet is-half-desktop" style="background-color: #eee; border-radius: 10px; padding: 20px; margin-bottom: 10px; cursor: pointer">
-                                                    <table style="width: 100%"><tr>
-                                                        <td style="width: 15px"><h4 class="title is-4"><i class="fas fa-file" style="margin-right: 15px"></i></h4></td>
-                                                        <td><h4 class="title is-4 headerstr">{{ files.length - 20 }} more files...</h4></td>
-                                                        
-                                                    </tr></table>
-                                                </div>
-                                            </div>
 
-                                    </span>
 
-                                            
-                                    
-                                </span>
-                                <span v-else class="column is-full" style="background-color: #eee; border-radius: 10px; padding: 20px; margin-bottom: 10px; cursor: pointer">
-                                    <h4 class="title is-4">
-                                        <i class="fas fa-spinner" style="margin-right: 15px"></i>Loading...
-                                        <span style="float: right"><i class="fas fa-chevron-right" style="opacity: 0.4"></i></span>
-                                    </h4>
-                                </span>
+      <div class="has-background-dark">
+        <section class="hero is-header is-dark">
+          <div class="hero-body">
+            <div class="container">
+              <a class="button back" @click="closeFile()">
+                <span class="icon" style="margin-right: 1px">
+                  <i class="fas fa-chevron-left"></i>
+                </span>
+                Back
+              </a>
+              <h1 class="title is-1" style="font-weight: 800;">{{showFile.title}}</h1>
+              <h3 class="subtitle is-3">{{showFile.version}}</h3>
+            </div>
+          </div>
+        </section>
 
-                                
-            
-            
-                        </div>
-                    </section>
-                    <section class="section hero is-gray">
-                        <div class="container" style="width: 95%">
-                            <h4 class="title is-4">Made with <i class="fas fa-heart"></i> by</h4>
-                            <div class="columns">
-                                <a href="https://twitter.com/even_dev" target="_blank" class="column is-half-desktop is-half-tablet is-full-mobile madeby">
-                                    <img style="float: left; height: 55px; margin-right: 10px" src="https://api.zenithdevs.com/eclipse/twitter/even_dev"/>
-                                    <p style="float:left">
-                                        <h4 class="title is-4">EvenDev</h4>
-                                        <h6 class="subtitle is-6">@even_dev on Twitter</h6>
-                                    </p>
-                                </a>
-                                <a href="https://twitter.com/hellojacc" target="_blank" class="column is-half-desktop is-half-tablet is-full-mobile madeby">
-                                    <img style="float: left; height: 55px; margin-right: 10px; border-radius: 25.5px" src="https://api.zenithdevs.com/eclipse/twitter/hellojacc"/>
-                                    <p style="float:left">
-                                        <h4 class="title is-4">Jack</h4>
-                                        <h6 class="subtitle is-6">@hellojacc on Twitter</h6>
-                                    </p>
-                                </a>
-                            </div>
-                            <div class="columns" style="margin-top: 10px">
-                                <a href="https://twitter.com/ItsS0n1c" target="_blank" class="column is-half-desktop is-half-tablet is-full-mobile madeby">
-                                    <img style="float: left; height: 55px; margin-right: 10px; border-radius: 25.5px" src="https://api.zenithdevs.com/eclipse/twitter/itss0n1c"/>
-                                    <p style="float:left">
-                                        <h4 class="title is-4">S0n1c</h4>
-                                        <h6 class="subtitle is-6">@ItsS0n1c on Twitter</h6>
-                                    </p>
-                                </a>
-                                <a href="https://bulma.io/" target="_blank" class="column is-half-desktop is-half-tablet is-full-mobile madeby">
-                                    <img style="float: left; height: 55px; margin-right: 10px" src="https://jgthms.com/web-design-in-4-minutes/bulma.png"/>
-                                    <p style="float:left">
-                                        <h4 class="title is-4">Bulma</h4>
-                                        <h6 class="subtitle is-6">https://bulma.io/</h6>
-                                    </p>
-                                </a>
-                            </div>
-                        </div>
-                    </section>
+        <section class="section hero">
+          <div class="container" style="width: 95%">
+            <pre class="precode"><code class=" objective-c">{{showFile.data}}</code></pre>
+          </div>
+        </section>
+        <section class="section hero is-gray">
+          <div class="container" style="width: 95%">
+            <h4 class="title is-4">Made with <i class="fas fa-heart"></i> by</h4>
+            <div class="columns">
+              <a href="https://twitter.com/even_dev" target="_blank"
+                class="column is-half-desktop is-half-tablet is-full-mobile madeby">
+                <img style="float: left; height: 55px; margin-right: 10px"
+                  src="https://api.zenithdevs.com/eclipse/twitter/even_dev" />
+                <p style="float:left">
+                  <h4 class="title is-4">EvenDev</h4>
+                  <h6 class="subtitle is-6">@even_dev on Twitter</h6>
+                </p>
+              </a>
+              <a href="https://twitter.com/hellojacc" target="_blank"
+                class="column is-half-desktop is-half-tablet is-full-mobile madeby">
+                <img style="float: left; height: 55px; margin-right: 10px; border-radius: 25.5px"
+                  src="https://api.zenithdevs.com/eclipse/twitter/hellojacc" />
+                <p style="float:left">
+                  <h4 class="title is-4">Jack</h4>
+                  <h6 class="subtitle is-6">@hellojacc on Twitter</h6>
+                </p>
+              </a>
+            </div>
+            <div class="columns" style="margin-top: 10px">
+              <a href="https://twitter.com/ItsS0n1c" target="_blank"
+                class="column is-half-desktop is-half-tablet is-full-mobile madeby">
+                <img style="float: left; height: 55px; margin-right: 10px; border-radius: 25.5px"
+                  src="https://api.zenithdevs.com/eclipse/twitter/itss0n1c" />
+                <p style="float:left">
+                  <h4 class="title is-4">S0n1c</h4>
+                  <h6 class="subtitle is-6">@ItsS0n1c on Twitter</h6>
+                </p>
+              </a>
+              <a href="https://bulma.io/" target="_blank"
+                class="column is-half-desktop is-half-tablet is-full-mobile madeby">
+                <img style="float: left; height: 55px; margin-right: 10px"
+                  src="https://jgthms.com/web-design-in-4-minutes/bulma.png" />
+                <p style="float:left">
+                  <h4 class="title is-4">Bulma</h4>
+                  <h6 class="subtitle is-6">https://bulma.io/</h6>
+                </p>
+              </a>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+
+    </div>
+    <div v-else>
+      <section class="hero is-header is-dark">
+        <div class="hero-body">
+          <div class="container">
+            <h1 class="title is-1" style="font-weight: 800;">HeaderFinder</h1>
+            <p class="subtitle">Find functions and methods inside SpringBoard headers with ease.</p>
+            <p class="buttons">
+              <a :class="'button btn '+ ((current_version == index) ? 'selected' : '')" v-for="(key, index) in versions"
+                @click="loadVersion(index)">{{key}}</a>
+            </p>
+
+            <div class="field">
+              <p class="control has-icons-left">
+                <input class="input search is-medium" v-model="search" @input="searchFile" type="text"
+                  placeholder="Search">
+                <span class="icon is-left" style="color: #aaa">
+                  <i class="fas fa-search"></i>
+                </span>
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+      <section class="section hero has-background-white">
+        <div class="container" style="width: 100%">
+          <h2 class="title is-2" style="font-weight: 800;">{{page_title}}</h2>
+
+
+
+          <span v-if="Object.keys(files).length > 0">
+            <span v-if="isSearch()">
+
+              <div v-if="search_results.length > 0">
+
+                <div class="columns is-multiline">
+                  <div v-for="key in search_results.slice(0, 20)" @click="loadFile(key)"
+                    class="column is-full-mobile is-full-tablet is-fullwidth-desktop"
+                    style="background-color: #eee; border-radius: 10px; padding: 20px; margin-bottom: 10px; cursor: pointer">
+                    <table style="width: 100%">
+                      <tr>
+                        <td style="width: 15px">
+                          <h4 class="title is-4"><i class="fas fa-file" style="margin-right: 15px"></i></h4>
+                        </td>
+                        <td>
+                          <h4 class="title is-4 headerstr">{{files[key]}}</h4>
+                        </td>
+                        <td style="width: 15px; float: right; margin-left: 10px">
+                          <h4 class="title is-4"><i class="fas fa-chevron-right" style="opacity: 0.4"></i></h4>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+
+              </div>
+              <div v-else>
+                <p>Couldn't find any files matching that query!</p>
+              </div>
+
+            </span>
+            <span v-else>
+
+              <div class="columns is-multiline">
+                <div v-for="(file, key) in files.slice(0, 20)" @click="loadFile(key)"
+                  class="column is-full-mobile is-full-tablet is-half-desktop"
+                  style="background-color: #eee; border-radius: 10px; padding: 20px; margin-bottom: 10px; cursor: pointer">
+                  <table style="width: 100%">
+                    <tr>
+                      <td style="width: 15px">
+                        <h4 class="title is-4"><i class="fas fa-file" style="margin-right: 15px"></i></h4>
+                      </td>
+                      <td>
+                        <h4 class="title is-4 headerstr">{{file}}</h4>
+                      </td>
+                      <td style="width: 15px; float: right; margin-left: 10px">
+                        <h4 class="title is-4"><i class="fas fa-chevron-right" style="opacity: 0.4"></i></h4>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="column is-full-mobile is-full-tablet is-half-desktop"
+                  style="background-color: #eee; border-radius: 10px; padding: 20px; margin-bottom: 10px; cursor: pointer">
+                  <table style="width: 100%">
+                    <tr>
+                      <td style="width: 15px">
+                        <h4 class="title is-4"><i class="fas fa-file" style="margin-right: 15px"></i></h4>
+                      </td>
+                      <td>
+                        <h4 class="title is-4 headerstr">{{ files.length - 20 }} more files...</h4>
+                      </td>
+
+                    </tr>
+                  </table>
+                </div>
+              </div>
+
+
+
+            </span>
+
+
+
+          </span>
+          <span v-else class="column is-full"
+            style="background-color: #eee; border-radius: 10px; padding: 20px; margin-bottom: 10px; cursor: pointer">
+            <h4 class="title is-4">
+              <i class="fas fa-spinner" style="margin-right: 15px"></i>Loading...
+              <span style="float: right"><i class="fas fa-chevron-right" style="opacity: 0.4"></i></span>
+            </h4>
+          </span>
+
+
+
 
         </div>
-        
-        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-      <script src="js/app.js"></script>
-    </body>
+      </section>
+      <section class="section hero is-gray">
+        <div class="container" style="width: 95%">
+          <h4 class="title is-4">Made with <i class="fas fa-heart"></i> by</h4>
+          <div class="columns">
+            <a href="https://twitter.com/even_dev" target="_blank"
+              class="column is-half-desktop is-half-tablet is-full-mobile madeby">
+              <img style="float: left; height: 55px; margin-right: 10px"
+                src="https://api.zenithdevs.com/eclipse/twitter/even_dev" />
+              <p style="float:left">
+                <h4 class="title is-4">EvenDev</h4>
+                <h6 class="subtitle is-6">@even_dev on Twitter</h6>
+              </p>
+            </a>
+            <a href="https://twitter.com/hellojacc" target="_blank"
+              class="column is-half-desktop is-half-tablet is-full-mobile madeby">
+              <img style="float: left; height: 55px; margin-right: 10px; border-radius: 25.5px"
+                src="https://api.zenithdevs.com/eclipse/twitter/hellojacc" />
+              <p style="float:left">
+                <h4 class="title is-4">Jack</h4>
+                <h6 class="subtitle is-6">@hellojacc on Twitter</h6>
+              </p>
+            </a>
+          </div>
+          <div class="columns" style="margin-top: 10px">
+            <a href="https://twitter.com/ItsS0n1c" target="_blank"
+              class="column is-half-desktop is-half-tablet is-full-mobile madeby">
+              <img style="float: left; height: 55px; margin-right: 10px; border-radius: 25.5px"
+                src="https://api.zenithdevs.com/eclipse/twitter/itss0n1c" />
+              <p style="float:left">
+                <h4 class="title is-4">S0n1c</h4>
+                <h6 class="subtitle is-6">@ItsS0n1c on Twitter</h6>
+              </p>
+            </a>
+            <a href="https://bulma.io/" target="_blank"
+              class="column is-half-desktop is-half-tablet is-full-mobile madeby">
+              <img style="float: left; height: 55px; margin-right: 10px"
+                src="https://jgthms.com/web-design-in-4-minutes/bulma.png" />
+              <p style="float:left">
+                <h4 class="title is-4">Bulma</h4>
+                <h6 class="subtitle is-6">https://bulma.io/</h6>
+              </p>
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+
+
+
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="js/highlight.pack.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
 </html>

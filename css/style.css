@@ -43,13 +43,18 @@
 }
 
 .objective-c {
-    background-color: #eee;
+    background-color:#282c34;
 }
 .precode {
     border-radius: 10px;
-    background-color: #eee;
+    background-color: #282c34;
 }
 
+.modal-content {
+    max-height: none;
+}
+
+/*
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -66,7 +71,7 @@
 
 ::-webkit-scrollbar-thumb:hover {
     background-color: #999;
-}
+}*/
 
 .madeby {
     background-color: #ddd;
