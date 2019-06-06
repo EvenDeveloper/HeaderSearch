@@ -1,7 +1,7 @@
 var app = new Vue({
     el: '#app',
     data: {
-        db: 'http://localhost/headers/',
+        db: 'https://headers.evendev.org/headers/',
         versions: [
             "12.1.2",
             "11.3.1",
